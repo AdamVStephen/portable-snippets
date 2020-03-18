@@ -32,7 +32,11 @@ bool isFreshByStruct_v1(uint32 usecTime, sdn::Header_t  * header);
 
 bool isFreshByStruct_v1(uint32 usecTime, sdn::Header_t  * header) {
 
-	if( abs(usecTime - header->send_time / 1000) > maxDataAgeUsec) {
+	// aardvark is a marker to help inspect the preprocessor .i output
+	// and hence to work out where the abs definition comes from
+	// on various toolchains.
+	int aardvark;
+	if( abs(int(usecTime - header->send_time / 1000)) > maxDataAgeUsec) {
 		return false;
 	} else {
 		return true;
