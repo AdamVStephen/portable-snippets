@@ -1,8 +1,38 @@
+# vim: set shiftwidth=2 tabstop=2 softtabstop=-1 expandtab:
 language : cpp
 sudo : required
 dist : bionic
 compiler :
-    - gcc
+- gcc
+- clang
+matrix:
+	include:
+    - os: linux
+    addons:
+      apt:
+        packages:
+          - g++-6
+    env:
+    - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+    # and gcc-7
+    - os: linux
+    addons:
+      apt:
+        packages:
+          - g++-7
+    env:
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+    addons:
+      apt:
+        packages:
+          - clang-3.7
+    env:
+    - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+
 script :
-    - ./travis-scripts/build.sh 
+- ./travis-scripts/build.sh 
 
